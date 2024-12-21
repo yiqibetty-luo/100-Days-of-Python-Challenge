@@ -1,37 +1,50 @@
+#Demonstration: https://youtu.be/J0sQIJb_Xhs
+
 import random
 import hangman_words
-#(scroll down to see module content)
 import hangman_art
-#(scroll down to see module content)
 
 lives = 6
 
-#choosing a random word:
+#choosing a category:
 print(hangman_art.logo)
-chosen_word = random.choice(hangman_words.word_list)
-#print(chosen_word)
+category = input("Which category would you like to choose? "
+                 "Type animal, musical, or country.\n"). lower()
 
-#printing _ based on word length:
+#generating a random word:
+if category == "animal":
+    chosen_word = random.choice(hangman_words.animal_word_list)
+elif category == "musical":
+    chosen_word = random.choice(hangman_words.musical_word_list)
+elif category == "country":
+    chosen_word = random.choice(hangman_words.country_word_list)
+else:
+    print("Please restart the game and enter a valid input.")
+    exit()
+
+#printing underscore based on the word length:
 placeholder = ""
-word_length = len(chosen_word)
-for position in range(word_length):
+for letter in chosen_word:
     placeholder += "_"
-print("Word to guess: " + placeholder)
+print(f"Word to guess: {placeholder}.")
 
 #defining the condition for the while loop
-#defining a list to store all correct guesses
 game_over = False
+
+#defining a list to store all correct guesses
 correct_letters = []
 
+#using the condition to create a while loop to keep guessing:
 while not game_over:
-#printing the guess in progress, displaying correctly guessed words:
-    display = ""
+    guess = input("Guess a letter: ").lower()
 
+#printing all correctly guessed words:
+    display = ""
     for letter in chosen_word:
         if letter == guess:
             display += letter
             if letter in correct_letters:
-                print("You've already guessed " + letter)
+                print(f"You've already guessed {letter}.")
             else:
                 correct_letters.append(letter)
         elif letter in correct_letters:
@@ -39,246 +52,80 @@ while not game_over:
         else:
             display += "_"
 
-    print("Word to guess: " + display)
+    print(f"Word to guess: {display}")
 
-
-#keeping track of life, exiting game when win/lose.
+#deducting life when guessed wrong:
     if guess not in chosen_word:
-        print("You guessed " + guess + ", that's not in the word. "
-                                       "You lose a life.")
         lives -= 1
+        print(f"You guessed {guess}, that's not in the word. You lost a life.")
 
-        if lives == 0:
-            game_over = True
-
-            # TODO 7: - Update the print statement below to give the user the correct word they were trying to guess.
-            print(f"*********************** IT WAS <" + chosen_word + ">! YOU LOSE**********************")
-
-    if "_" not in display:
-        game_over = True
-        print("****************************YOU WIN****************************")
-
-#showing the hangman art by life each round:
-    print("****************************" + str(lives) + "/6 LIVES LEFT****************************")
+# showing the hangman art by life:
+    print(f"**************************** {lives}/6 LIVES LEFT****************************")
     print(hangman_art.stages[lives])
 
+#checking whether to exit the game (won or lose):
+    if "_" not in display:
+        print("****************************YOU WIN****************************")
+        game_over = True
+    elif lives == 0:
+        print(f"*********************** IT WAS <{chosen_word}>! YOU LOSE**********************")
+        game_over = True
 
 
 #MODULE hangman_words.py:
-word_list = [
-    'abruptly',
-    'absurd',
-    'abyss',
-    'affix',
-    'askew',
-    'avenue',
-    'awkward',
-    'axiom',
-    'azure',
-    'bagpipes',
-    'bandwagon',
-    'banjo',
-    'bayou',
-    'beekeeper',
-    'bikini',
-    'blitz',
-    'blizzard',
-    'boggle',
-    'bookworm',
-    'boxcar',
-    'boxful',
-    'buckaroo',
-    'buffalo',
-    'buffoon',
-    'buxom',
-    'buzzard',
-    'buzzing',
-    'buzzwords',
-    'caliph',
-    'cobweb',
-    'cockiness',
-    'croquet',
-    'crypt',
-    'curacao',
-    'cycle',
-    'daiquiri',
-    'dirndl',
-    'disavow',
-    'dizzying',
-    'duplex',
-    'dwarves',
-    'embezzle',
-    'equip',
-    'espionage',
-    'euouae',
-    'exodus',
-    'faking',
-    'fishhook',
-    'fixable',
-    'fjord',
-    'flapjack',
-    'flopping',
-    'fluffiness',
-    'flyby',
-    'foxglove',
-    'frazzled',
-    'frizzled',
-    'fuchsia',
-    'funny',
-    'gabby',
-    'galaxy',
-    'galvanize',
-    'gazebo',
-    'giaour',
-    'gizmo',
-    'glowworm',
-    'glyph',
-    'gnarly',
-    'gnostic',
-    'gossip',
-    'grogginess',
-    'haiku',
-    'haphazard',
-    'hyphen',
-    'iatrogenic',
-    'icebox',
-    'injury',
-    'ivory',
-    'ivy',
-    'jackpot',
-    'jaundice',
-    'jawbreaker',
-    'jaywalk',
-    'jazziest',
-    'jazzy',
-    'jelly',
-    'jigsaw',
-    'jinx',
-    'jiujitsu',
-    'jockey',
-    'jogging',
-    'joking',
-    'jovial',
-    'joyful',
-    'juicy',
-    'jukebox',
-    'jumbo',
-    'kayak',
-    'kazoo',
-    'keyhole',
-    'khaki',
-    'kilobyte',
-    'kiosk',
-    'kitsch',
-    'kiwifruit',
-    'klutz',
-    'knapsack',
-    'larynx',
-    'lengths',
-    'lucky',
-    'luxury',
-    'lymph',
-    'marquis',
-    'matrix',
-    'megahertz',
-    'microwave',
-    'mnemonic',
-    'mystify',
-    'naphtha',
-    'nightclub',
-    'nowadays',
-    'numbskull',
-    'nymph',
-    'onyx',
-    'ovary',
-    'oxidize',
-    'oxygen',
-    'pajama',
-    'peekaboo',
-    'phlegm',
-    'pixel',
-    'pizazz',
-    'pneumonia',
-    'polka',
-    'pshaw',
-    'psyche',
-    'puppy',
-    'puzzling',
-    'quartz',
-    'queue',
-    'quips',
-    'quixotic',
-    'quiz',
-    'quizzes',
-    'quorum',
-    'razzmatazz',
-    'rhubarb',
-    'rhythm',
-    'rickshaw',
-    'schnapps',
-    'scratch',
-    'shiv',
-    'snazzy',
-    'sphinx',
-    'spritz',
-    'squawk',
-    'staff',
-    'strength',
-    'strengths',
-    'stretch',
-    'stronghold',
-    'stymied',
-    'subway',
-    'swivel',
-    'syndrome',
-    'thriftless',
-    'thumbscrew',
-    'topaz',
-    'transcript',
-    'transgress',
-    'transplant',
-    'triphthong',
-    'twelfth',
-    'twelfths',
-    'unknown',
-    'unworthy',
-    'unzip',
-    'uptown',
-    'vaporize',
-    'vixen',
-    'vodka',
-    'voodoo',
-    'vortex',
-    'voyeurism',
-    'walkway',
-    'waltz',
-    'wave',
-    'wavy',
-    'waxy',
-    'wellspring',
-    'wheezy',
-    'whiskey',
-    'whizzing',
-    'whomever',
-    'wimpy',
-    'witchcraft',
-    'wizard',
-    'woozy',
-    'wristwatch',
-    'wyvern',
-    'xylophone',
-    'yachtsman',
-    'yippee',
-    'yoked',
-    'youthful',
-    'yummy',
-    'zephyr',
-    'zigzag',
-    'zigzagging',
-    'zilch',
-    'zipper',
-    'zodiac',
-    'zombie',
+animal_word_list = [
+    'donkey',
+    'tortoise',
+    'whale',
+    'ostrich',
+    'chimpanzee',
+    'pigeon',
+    'beaver',
+    'llama',
+    'alligator',
+    'panther',
+    'cheetah',
+    'leopard',
+    'crocodile',
+    'chihuahua'
+]
+
+musical_word_list = [
+    'harp',
+    'cello',
+    'trumpet',
+    'guzheng',
+    'guqin',
+    'guitar',
+    'classical',
+    'punk',
+    'funk',
+    'dynamics',
+    'tempo',
+    'jazz',
+    'blues',
+    'soul'
+]
+
+country_word_list = [
+    'sweden',
+    'china',
+    'canada',
+    'america',
+    'mexico',
+    'iran',
+    'greece',
+    'ecuador',
+    'netherlands',
+    'thailand',
+    'japan',
+    'nepal',
+    'italy',
+    'vietnam',
+    'argentina',
+    'australia',
+    'austria',
+    'belgium'
 ]
 
 

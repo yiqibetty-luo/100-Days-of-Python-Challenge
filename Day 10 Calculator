@@ -1,0 +1,42 @@
+def add(n1, n2):
+    return n1 + n2
+
+def subtract(n1, n2):
+    return n1 - n2
+
+def multiply(n1, n2):
+    return n1 * n2
+
+def divide(n1, n2):
+    return n1 / n2
+
+operations = {
+    "+": add,
+    "-": subtract,
+    "*": multiply,
+    "/": divide
+}
+#storing a function does not include (). Only use () when triggering a function.
+
+number_1 = float(input("What is the first number? "))
+
+keep_playing = True
+while keep_playing:
+    operation = input("What is the operation wanted? Type +, -, *, or /. ")
+    number_2 = float(input("What is the second number? "))
+    result = operations[operation](number_1, number_2)
+    print(result)
+
+    want_to_continue = input("Do you want to continue the calculation or not? "
+                             "Type 'y' to continue and 'n' to end. "). lower()
+    if want_to_continue == "n":
+        keep_playing = False
+        exit()
+
+    decision = input(f"Would you like to continue working with {result} or start a new calculation? "
+        f"Type 'y' to use {result} and 'n' to start a new operation. ")
+
+    if decision == "n":
+        number_1 = float(input("What is the first number? "))
+    elif decision == "y":
+        number_1 = result

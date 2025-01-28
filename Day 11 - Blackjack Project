@@ -1,0 +1,102 @@
+import random
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+start_a_new_game = True
+while start_a_new_game:
+    want_to_play = input("Do you want to play a game of Blackjack? Type 'y' or 'n': "). lower()
+    if want_to_play == 'y':
+        print("\n" * 20)
+        player_hand = []
+        computer_hand = []
+
+        #drawing initial two cards for player:
+        player_hand.extend(random.sample(cards, 2))
+        player_sum = sum(player_hand)
+        #addressing if the player draws double 11s first round:
+        if player_sum > 21:
+            index_of_11 = player_hand.index(11)
+            player_hand[index_of_11] = 1
+            player_sum = sum(player_hand)
+        print(f"Your cards: {player_hand}, current score: {player_sum}")
+
+        #drawing first card for computer:
+        computer_hand.append(random.choice(cards))
+        print(f"Computer's first card: {computer_hand}")
+
+        #loop for drawing additional card(s):
+        game_continue = True
+        while game_continue:
+            another_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
+
+            #if player wants to draw an additional card:
+            if another_card == "y":
+                player_hand.append(random.choice(cards))
+                player_sum = sum(player_hand)
+
+                # in the case of over 21, checking if player has 11 and turning 11 into 1:
+                if player_sum > 21:
+                    if 11 in player_hand:
+                        index_of_11 = player_hand.index(11)
+                        player_hand[index_of_11] = 1
+                        player_sum = sum(player_hand)
+
+                print(f"Your cards: {player_hand}, current score: {player_sum}")
+
+                #checking if the player is over 21 therefore lost:
+                if player_sum > 21:
+                    computer_sum = sum(computer_hand)
+                    print(f"Computer's first card: {computer_hand}")
+                    print(f"Your final hand: {player_hand}, final score: {player_sum}")
+                    print(f"Computer's final hand: {computer_hand}, final score: {computer_sum}")
+                    print("You went over. You lost.")
+                    game_continue = False
+
+            #if player does not want any more additional cards:
+            elif another_card == "n":
+                print(f"Your final hand: {player_hand}, final score: {player_sum}")
+
+                #draw one card for computer:
+                computer_hand.append(random.choice(cards))
+                computer_sum = sum(computer_hand)
+
+                #if computer sum is under 21, draw another card
+                if computer_sum < 21: #perhaps we can change this number to adjust how aggressive computer plays
+                    computer_hand.append(random.choice(cards))
+
+                    #in case the sum is over 21 now, convert any 11 into 1:
+                    if computer_sum > 21:
+                        if 11 in computer_hand:
+                            index_of_11 = computer_hand.index(11)
+                            computer_hand[index_of_11] = 1
+                    computer_sum = sum(computer_hand)
+
+                #if computer sum is over 21 after two cards (double 11s), change one 11 into 1 and draw one more:
+                elif computer_sum > 21:
+                    index_of_11 = computer_hand.index(11)
+                    computer_hand[index_of_11] = 1
+                    computer_hand.append(random.choice(cards))
+                    computer_sum = sum(computer_hand)
+
+                    # after drawing third card, change any additional 11 into 1 (since any additional 11 WILL make sum over 21)
+                    # (This account for the case of 11 + 1 + 11 = 23 --> 11 + 1 + 1 = 13)
+                    if 11 in computer_hand:
+                        index_of_11 = computer_hand.index(11)
+                        computer_hand[index_of_11] = 1
+                        computer_sum = sum(computer_hand)
+
+                print(f"Computer's final hand: {computer_hand}, final score: {computer_sum}.")
+
+                if computer_sum > 21:
+                    print("The computer went over. You won.")
+                elif player_sum < computer_sum:
+                    print("You lost.")
+                elif player_sum > computer_sum:
+                    print("You won.")
+                else:
+                    print("It's a draw.")
+
+                game_continue = False
+
+    else:
+        start_a_new_game = False
+        exit()

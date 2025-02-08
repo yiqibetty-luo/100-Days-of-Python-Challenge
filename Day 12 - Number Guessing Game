@@ -1,0 +1,50 @@
+import random
+import myart
+
+CHOSEN_NUMBER = random.randint(1, 100)
+print(CHOSEN_NUMBER)
+
+def compare_num(target_num, guessed_num):
+    """Compares numbers when they are not equal."""
+    if target_num < guessed_num:
+        return "Too high."
+    elif target_num > guessed_num:
+        return "Too low."
+
+print(myart.logo)
+print("Welcome to the number guessing game!")
+print("I'm thinking of a number between 1 and 100.")
+difficulty = input("Choose a difficulty level. Type 'easy' or 'hard': "). lower()
+
+if difficulty == "easy":
+    attempts = 10
+else:
+    attempts = 5
+
+for i in range (0, attempts):
+    print(f"You have {attempts} attempts remaining to guess the number.")
+    guess = int(input("Make a guess: "))
+
+    if CHOSEN_NUMBER == guess:
+        print(f"You got it! The correct number was {CHOSEN_NUMBER}.")
+        exit()
+
+    print(compare_num(CHOSEN_NUMBER, guess))
+    attempts -= 1
+    if attempts == 0:
+        print(f"You used up all attempts. The correct number was {CHOSEN_NUMBER}.")
+        exit()
+    else:
+        print("Guess again.")
+
+
+
+MODULE:
+myart.py
+logo = r"""  ________                                                           ___.                 
+ /  _____/ __ __   ____   ______ ______ _____      ____  __ __  _____\_ |__   ___________ 
+/   \  ___|  |  \_/ __ \ /  ___//  ___/ \__  \    /    \|  |  \/     \| __ \_/ __ \_  __ \
+\    \_\  \  |  /\  ___/ \___ \ \___ \   / __ \_ |   |  \  |  /  Y Y  \ \_\ \  ___/|  | \/
+ \______  /____/  \___  >____  >____  > (____  / |___|  /____/|__|_|  /___  /\___  >__|   
+        \/            \/     \/     \/       \/       \/            \/    \/     \/       
+        """

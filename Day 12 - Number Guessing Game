@@ -2,7 +2,6 @@ import random
 import myart
 
 CHOSEN_NUMBER = random.randint(1, 100)
-print(CHOSEN_NUMBER)
 
 def compare_num(target_num, guessed_num):
     """Compares numbers when they are not equal."""

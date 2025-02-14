@@ -1,0 +1,63 @@
+YouTube walk-through video: https://youtu.be/rHmJeVJP2xw
+
+from game_data import data
+import random
+import art
+
+score = 0
+
+def compare_options(player_choice, not_chosen):
+    global score
+    if player_choice > not_chosen:
+        score += 1
+        print("\n" *20)
+        print(f"You are right! Current score: {score}.")
+    else:
+        print("\n" *20)
+        print(f"Sorry, that's wrong. Final score: {score}.")
+        exit()
+
+def game():
+        print(art.logo)
+
+        # Choose option A:
+        option_a = data[random.randint(0, len(data) - 1)]
+        name_a = option_a["name"]
+        follower_count_a = option_a["follower_count"]
+        description_a = option_a["description"]
+        country_a = option_a["country"]
+        print(f"{name_a}, {description_a}, from {country_a}")
+
+        # This part repeats:
+        continue_game = True
+        while continue_game:
+            print(art.vs)
+
+            # Choose option B:
+            option_b = data[random.randint(0, len(data) - 1)]
+            while option_b == option_a:
+                option_b = data[random.randint(0, len(data) - 1)]
+            name_b = option_b["name"]
+            follower_count_b = option_b["follower_count"]
+            description_b = option_b["description"]
+            country_b = option_b["country"]
+            print(f"{name_b}, {description_b}, from {country_b}")
+
+            # Ask user input
+            choice = input("Who has more followers? Type A or B: ").lower()
+
+            # Checking answers:
+            if choice == "a":
+                compare_options(follower_count_a, follower_count_b)
+            else:
+                compare_options(follower_count_b, follower_count_a)
+
+            # Option B becomes option A
+            print(art.logo)
+            name_a = name_b
+            follower_count_a = follower_count_b
+            description_a = description_b
+            country_a = country_b
+            print(f"{name_a}, {description_a}, from {country_a}")
+
+game()

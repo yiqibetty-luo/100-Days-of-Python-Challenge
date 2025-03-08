@@ -1,0 +1,98 @@
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "milk": 0,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
+
+# TODO: 1. Ask the customer what they would like.
+
+money = 0
+
+continue_making = True
+
+while continue_making:
+    choice = input("What would you like? (espresso/latte/cappuccino): ").lower()
+
+# TODO: 2. Secret "Off" to turn off the machine. If entered "report", show everything that is left in the machine.
+
+    if choice == "off":
+        continue_making = False
+        exit()
+    elif choice == "report":
+        print(f"Water: {resources["water"]}ml")
+        print(f"Milk: {resources["milk"]}ml")
+        print(f"Coffee: {resources["coffee"]}g")
+        print(f"Money: ${money}")
+
+# TODO: 3. When a drink is requested, check if resources are enough and report if not.
+    else:
+        choice_water = MENU[choice]["ingredients"]["water"]
+        choice_milk = MENU[choice]["ingredients"]["milk"]
+        choice_coffee = MENU[choice]["ingredients"]["coffee"]
+
+        if choice_water > resources["water"] or choice_milk > resources["milk"] or choice_coffee > resources["coffee"]:
+            if choice_water > resources["water"]:
+                print("Sorry, there is not enough water.")
+            if choice_milk > resources["milk"]:
+                print("Sorry, there is not enough milk.")
+            if choice_coffee > resources["coffee"]:
+                print("Sorry, there is not enough coffee.")
+            continue
+
+# TODO: 4. If resource is enough, prompt to insert coins.
+        print("Please insert coins.")
+        quarters = float(input("how many quarters?: "))
+        dimes = float(input("how many dimes?: "))
+        nickles = float(input("how many nickles?: "))
+        pennies = float(input("how many pennies?: "))
+
+# TODO: 5. Calculate total money received.
+        money_received = quarters * 0.25 + dimes * 0.1 + nickles * 0.05 + pennies * 0.01
+
+# TODO: 6. Decide if money is enough.
+#  If money is enough, price money added to machine and reflect on next report. Give back any changes.
+#  If money not enough, refund with explanation.
+        if money_received >= MENU[choice]["cost"]:
+            money += MENU[choice]["cost"]
+            if money_received > MENU[choice]["cost"]:
+                change = money_received - MENU[choice]["cost"]
+                print(f"Here is your change: ${change}")
+        else:
+            print(f"Sorry, the money is not enough. Here is your refund: ${money_received}.")
+            exit()
+
+# TODO: 7. Make coffee: deduct resources needed and give customer the specific coffee.
+        resources["water"] -= MENU[choice]["ingredients"]["water"]
+        resources["milk"] -= MENU[choice]["ingredients"]["milk"]
+        resources["coffee"] -= MENU[choice]["ingredients"]["coffee"]
+
+        print(f"Here is your {choice}. Enjoy!")
+
+# TODO: 8. The machine will continue to make the next coffee.

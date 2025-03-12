@@ -1,3 +1,6 @@
+YouTube Walk-Through: https://youtu.be/3DShag5DFG8
+
+
 MENU = {
     "espresso": {
         "ingredients": {
@@ -68,25 +71,25 @@ while continue_making:
 
 # TODO: 4. If resource is enough, prompt to insert coins.
         print("Please insert coins.")
-        quarters = float(input("how many quarters?: "))
-        dimes = float(input("how many dimes?: "))
-        nickles = float(input("how many nickles?: "))
-        pennies = float(input("how many pennies?: "))
+        quarters = int(input("how many quarters?: "))
+        dimes = int(input("how many dimes?: "))
+        nickles = int(input("how many nickles?: "))
+        pennies = int(input("how many pennies?: "))
 
 # TODO: 5. Calculate total money received.
         money_received = quarters * 0.25 + dimes * 0.1 + nickles * 0.05 + pennies * 0.01
 
 # TODO: 6. Decide if money is enough.
-#  If money is enough, price money added to machine and reflect on next report. Give back any changes.
+#  If money is enough, add price money to machine and reflect on the next report. Give back any changes.
 #  If money not enough, refund with explanation.
         if money_received >= MENU[choice]["cost"]:
             money += MENU[choice]["cost"]
             if money_received > MENU[choice]["cost"]:
-                change = money_received - MENU[choice]["cost"]
+                change = round(money_received - MENU[choice]["cost"], 2)
                 print(f"Here is your change: ${change}")
         else:
             print(f"Sorry, the money is not enough. Here is your refund: ${money_received}.")
-            exit()
+            continue
 
 # TODO: 7. Make coffee: deduct resources needed and give customer the specific coffee.
         resources["water"] -= MENU[choice]["ingredients"]["water"]
